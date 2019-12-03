@@ -31,7 +31,10 @@ else
 	}
 }
 
+var intersections = new List<int>();
 foreach(var l in list)
 {
-	Console.WriteLine(l[0] + l[2]);
+	intersections.Add(Math.Abs(l[0]) + Math.Abs(l[2]))
 }
+
+intersections.Min().Dump();
