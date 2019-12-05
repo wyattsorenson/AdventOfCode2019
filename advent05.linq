@@ -6,6 +6,7 @@ List<int> intcode2;
 List<int> intcode3;
 var input = 1;
 var output = 0;
+var parameters = new int[3];
 
 for(int w = 0; w < 100; w++){
 	for(int d = 0; d < 100; d++){
@@ -15,20 +16,19 @@ for(int w = 0; w < 100; w++){
 		intcode[1] = w;
 		intcode[2] = d;
 		for(int i = 0; intcode[i] != 99; i += 4){
-			Console.WriteLine(i);
-			int instruction = intcode[i] % 10; // 1 == add 2== multiply 3 == input into parameter 4 == output from parameter
-			int mode = -1;
-			try
-			{
-				mode = intcode[i] % 100 - intcode[i] % 10; //0 == position mode go address 1 == immediate mode use literal
-				var parameters = new List<int>();
-				for(int p = intcode.Count - 3; p >= 0; p--)
-				{
-					parameters.Add(intcode[p]);
-				}
-			}
-			catch{}
-			switch (instruction)
+			i.Dump("Instruction address");
+			
+			// 1 == add 2== multiply 3 == input into parameter 4 == output from parameter
+			int opcode = intcode[i] % 10; 
+			opcode.Dump("Opcode");
+			// turn ints into string
+			//0 == position mode go address 1 == immediate mode use literal
+			try{parameters[0] = intcode[i]%1000 / intcode[i]%1000;}catch{parameters[0] = 0; }
+			try{parameters[1] = intcode[i]%10000 / intcode[i]%10000;}catch{parameters[1] = 0;}
+			try{parameters[2] = intcode[i]%100000 / intcode[i]%100000;}catch{parameters[2] = 0;}
+			parameters.Dump("parameters:");
+			
+			switch (opcode)
 			{
 			 case 1:
 			 	try{intcode[intcode[i+3]] = intcode[intcode[i+1]] + intcode[intcode[i+2]];}catch{}
