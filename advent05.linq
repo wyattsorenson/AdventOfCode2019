@@ -17,31 +17,31 @@ for(int w = 0; w < 100; w++){
 		intcode[2] = d;
 		for(int i = 0; intcode[i] != 99; i += 4){
 			i.Dump("Instruction address");
-			
+			var str = intcode[i].ToString();
 			// 1 == add 2== multiply 3 == input into parameter 4 == output from parameter
-			int opcode = intcode[i] % 10; 
+			char opcode = str[str.Length - 1]; 
 			opcode.Dump("Opcode");
 			// turn ints into string
 			//0 == position mode go address 1 == immediate mode use literal
-			try{parameters[0] = intcode[i]%1000 / intcode[i]%1000;}catch{parameters[0] = 0; }
-			try{parameters[1] = intcode[i]%10000 / intcode[i]%10000;}catch{parameters[1] = 0;}
-			try{parameters[2] = intcode[i]%100000 / intcode[i]%100000;}catch{parameters[2] = 0;}
-			parameters.Dump("parameters:");
+//			try{parameters[0] = intcode[i]%1000 / intcode[i]%1000;}catch{parameters[0] = 0; }
+//			try{parameters[1] = intcode[i]%10000 / intcode[i]%10000;}catch{parameters[1] = 0;}
+//			try{parameters[2] = intcode[i]%100000 / intcode[i]%100000;}catch{parameters[2] = 0;}
+//			parameters.Dump("parameters:");
 			
 			switch (opcode)
 			{
-			 case 1:
+			 case '1':
 			 	try{intcode[intcode[i+3]] = intcode[intcode[i+1]] + intcode[intcode[i+2]];}catch{}
 			    break;
-			 case 2:
+			 case '2':
 			 	try{intcode[intcode[i+3]] = intcode[intcode[i+1]] * intcode[intcode[i+2]];}catch{}
 			    break; 
-			 case 3:
+			 case '3':
 			 	try{intcode[intcode[i+1]] = input;
 				i -= 2;
 				}catch{}
 			    break; 
-			 case 4:
+			 case '4':
 			 	try{output = intcode[intcode[i+1]];
 				i -= 2;
 				}catch{}
