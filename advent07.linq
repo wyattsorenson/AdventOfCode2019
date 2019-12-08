@@ -12,14 +12,14 @@ int doIt(int r, int p)
 
 			for (int i = 0; intcode[i] != 99; i += 4)
 			{
-				Console.WriteLine("**********************************************************************");
-				intcode[i].Dump("Full Instruciton:");
-				i.Dump("Instruction address on intcode list");
+//				Console.WriteLine("**********************************************************************");
+//				intcode[i].Dump("Full Instruciton:");
+//				i.Dump("Instruction address on intcode list");
 				var str = intcode[i].ToString();
 
 				// 1 == add 2== multiply 3 == input into parameter 4 == output from parameter
 				char opcode = str[str.Length - 1];
-				opcode.Dump("Opcode");
+//				opcode.Dump("Opcode");
 
 				//0 == position mode go address 1 == immediate mode use literal
 				if (str.Length > 2)
@@ -32,7 +32,7 @@ int doIt(int r, int p)
 					try { parameters[0] = str[0]; } catch { parameters[0] = '0'; }
 					try { parameters[1] = str[1]; } catch { parameters[1] = '0'; }
 					try { parameters[2] = str[2]; } catch { parameters[2] = '0'; }
-					parameters.Dump("parameters:");
+//					parameters.Dump("parameters:");
 				}
 				else
 				{
@@ -75,12 +75,13 @@ int doIt(int r, int p)
 							if(phase != -1)
 							{
 								intcode[intcode[i + 1]] = phase;
+								phase = -1;
 							}
 							else
 							{
 								intcode[intcode[i + 1]] = input;
 							}
-							Console.WriteLine(intcode[intcode[i + 1]] + " " + input);
+//							Console.WriteLine(intcode[intcode[i + 1]] + " " + input);
 							i -= 2;
 						}
 						catch {Console.WriteLine("failed 3"); }
@@ -89,7 +90,7 @@ int doIt(int r, int p)
 						try
 						{
 							output = intcode[intcode[i + 1]];
-							Console.WriteLine(output + " " + intcode[intcode[i + 1]]);
+//							Console.WriteLine(output + " " + intcode[intcode[i + 1]]);
 							i -= 2;
 						}
 						catch {Console.WriteLine("failed 4"); }
@@ -179,15 +180,31 @@ int doIt(int r, int p)
 			}
 			return output;
 }
-var o1 = doIt(0);
-var o2 = doIt(o1);
-var o3 = doIt(o2);
-var o4 = doIt(o3);
-var o5 = doIt(o4);
 
+var dis = new List<List<int>>();
+for(var i = 0; i < 43210; i++)
+{
+	var str = i.ToString();
+ 	if(str.Length == 4){ str = "0" + str;}
+	if(Convert.ToBoolean(str.IndexOf('0')+1) && Convert.ToBoolean(str.IndexOf('1')+1) && Convert.ToBoolean(str.IndexOf('2')+1) && Convert.ToBoolean(str.IndexOf('3')+1) && Convert.ToBoolean(str.IndexOf('4')+1))
+	{
+		dis.Add(new List<int>(){(int)Char.GetNumericValue(str[0]),(int)Char.GetNumericValue(str[1]),(int)Char.GetNumericValue(str[2]),(int)Char.GetNumericValue(str[3]),(int)Char.GetNumericValue(str[4])});
+	}
+}
 
-o1.Dump("11111");
-o2.Dump("22222");
-o3.Dump("33333");
-o4.Dump("44444");
-o5.Dump("44444");
+var highest = 0;
+
+var dict = new Dictionary<int, List<int>>();
+
+for(var i = 0; i < dis.Count; i++)
+{
+	var aOut = doIt(0, dis[i][0]);
+	var bOut = doIt(aOut, dis[i][1]);
+	var cOut = doIt(bOut, dis[i][2]);
+	var dOut = doIt(cOut, dis[i][3]);
+	var eOut = doIt(dOut, dis[i][4]);
+	
+	if(highest < eOut){highest = eOut;}
+}
+
+highest.Dump();
