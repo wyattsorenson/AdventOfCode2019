@@ -192,17 +192,44 @@ for(var i = 0; i < 43210; i++)
 	}
 }
 
+var dis2 = new List<List<int>>();
+for(var i = 0; i < 98765; i++)
+{
+	var str = i.ToString();
+	if(Convert.ToBoolean(str.IndexOf('5')+1) && Convert.ToBoolean(str.IndexOf('6')+1) && Convert.ToBoolean(str.IndexOf('7')+1) && Convert.ToBoolean(str.IndexOf('8')+1) && Convert.ToBoolean(str.IndexOf('9')+1))
+	{
+		dis.Add(new List<int>(){(int)Char.GetNumericValue(str[0]),(int)Char.GetNumericValue(str[1]),(int)Char.GetNumericValue(str[2]),(int)Char.GetNumericValue(str[3]),(int)Char.GetNumericValue(str[4])});
+	}
+}
+
+//var highest = 0;
+//
+//var dict = new Dictionary<int, List<int>>();
+//
+//for(var i = 0; i < dis.Count; i++)
+//{
+//	var aOut = doIt(0, dis[i][0]);
+//	var bOut = doIt(aOut, dis[i][1]);
+//	var cOut = doIt(bOut, dis[i][2]);
+//	var dOut = doIt(cOut, dis[i][3]);
+//	var eOut = doIt(dOut, dis[i][4]);
+//	
+//	if(highest < eOut){highest = eOut;}
+//}
+//
+//highest.Dump();
+
 var highest = 0;
 
-var dict = new Dictionary<int, List<int>>();
+var dict2 = new Dictionary<int, List<int>>();
 
-for(var i = 0; i < dis.Count; i++)
+for(var i = 0; i < dis2.Count; i++)
 {
-	var aOut = doIt(0, dis[i][0]);
-	var bOut = doIt(aOut, dis[i][1]);
-	var cOut = doIt(bOut, dis[i][2]);
-	var dOut = doIt(cOut, dis[i][3]);
-	var eOut = doIt(dOut, dis[i][4]);
+	var aOut = doIt(0, dis2[i][0]);
+	var bOut = doIt(aOut, dis2[i][1]);
+	var cOut = doIt(bOut, dis2[i][2]);
+	var dOut = doIt(cOut, dis2[i][3]);
+	var eOut = doIt(dOut, dis2[i][4]);
 	
 	if(highest < eOut){highest = eOut;}
 }
