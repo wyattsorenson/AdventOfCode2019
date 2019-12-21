@@ -95,9 +95,16 @@ do
 				{
 					if (rightSide2.Contains(ingredient[1]))
 					{
+						var needed = ingredient[0];
+						var canGet = r2.Split(new string[] { " => " }, StringSplitOptions.None)[1].Split(' ')[0];
+						int divided = int.Parse(canGet)/int.Parse(needed);
+						int mod = int.Parse(canGet)%int.Parse(needed);
+						divided.Dump();
+						mod.Dump();
+						
 						if(!remainders.ContainsKey(ingredient[1]))
 						{
-							remainders.Add(ingredient[1], 0)
+							remainders.Add(ingredient[1], 0);
 						}
 						remainders[ingredient[1]] = 0;//the remainder
 						var tempR = r;

@@ -83,14 +83,53 @@ var data = new List<string>();
 //data.Add("#.....#..........e....#.........#...#...#.......#.............#...........#.....#");
 //data.Add("#################################################################################");
 
-data.Add("#########");
-data.Add("#b.A.@.a#");
-data.Add("#########");
+//data.Add("#########");
+//data.Add("#b.A.@.a#");
+//data.Add("#########");
+
+//data.Add("########################");
+//data.Add("#f.D.E.e.C.b.A.@.a.B.c.#");
+//data.Add("######################.#");
+//data.Add("#d.....................#");
+//data.Add("########################");
+
+//data.Add("########################");
+//data.Add("#...............b.C.D.f#");
+//data.Add("#.######################");
+//data.Add("#.....@.a.B.c.d.A.e.F.g#");
+//data.Add("########################");
+
+//data.Add("#################");
+//data.Add("#i.G..c...e..H.p#");
+//data.Add("########.########");
+//data.Add("#j.A..b...f..D.o#");
+//data.Add("########@########");
+//data.Add("#k.E..a...g..B.n#");
+//data.Add("########.########");
+//data.Add("#l.F..d...h..C.m#");
+//data.Add("#################");
+
+//data.Add("########################");
+//data.Add("#@..............ac.GI.b#");
+//data.Add("###d#e#f################");
+//data.Add("###A#B#C################");
+//data.Add("###g#h#i################");
+//data.Add("########################");
+
+data.Add("########");
+data.Add("###aB###");
+data.Add("#@...Cb#");
+data.Add("##.#####");
+data.Add("##.A..c#");
+data.Add("########");
+
+
 
 var xval = 0;
 var yval = 0;
 var directions = new int[4] { 0, 1, 2, 3 };
 var kdCount = 0;
+var paths = new List<int>() {133};
 
 for (var i = 0; i < data.Count; i++)
 {
@@ -104,110 +143,161 @@ for (var i = 0; i < data.Count; i++)
 		if (data[i][j] != '#' && data[i][j] != '.' && data[i][j] != '@') {kdCount++;}
 	}
 }
-//kdCount.Dump();//3
-//xval.Dump(); //5
-//yval.Dump(); //1
 
 void Move(int count, int y, int x, List<string> alreadyTraversed, List<char> keys, List<char> doors)
 {
-	count.Dump();
-	data[y][x].Dump();
-	var instCount = count + 1;
-	var already = new List<string>(alreadyTraversed);
-	already.Add($"{y},{x}");
-	var addedKey = new List<char>(keys);
-	var addedDoor = new List<char>(doors);
-	for (var i = 0; i < 4; i++)
-	{
-		switch (directions[i])
+//	if (paths.Min() == 78)
+//	{
+		Util.ClearResults();
+		var twoD = new char[data.Count, data[0].Length];
+		for (var i = 0; i < data.Count; i++)
 		{
-			case 0:
-				if (data[y + 1][x] == '#' || alreadyTraversed.Contains($"{y + 1},{x}"))
+			for (var j = 0; j < data[0].Length; j++)
+			{
+				if (i == y && j == x)
 				{
-					break;
+					twoD[i, j] = 'X';
 				}
-				if (Char.IsUpper(data[y + 1][x]) && !addedKey.Contains(Char.ToLower(data[y + 1][x])))
+				else
 				{
-					break;
+					twoD[i, j] = data[i][j];
 				}
-				if(Char.IsLower(data[y + 1][x]))
-				{
-					addedKey.Add(data[y + 1][x]);
-					if(kdCount == addedKey.Count + addedDoor.Count)
+			}
+		}
+		twoD.Dump();
+//	}
+	
+//	new {x = x, y = y, count = count, position = data[y][x], keys = keys, doors = doors,}.Dump();
+	var instCount = count + 1;
+
+	if (instCount < paths.Min())
+	{
+
+		var already = new List<string>(alreadyTraversed);
+		already.Add($"{y},{x}");
+		var addedKey = new List<char>(keys);
+		var addedDoor = new List<char>(doors);
+		for (var i = 0; i < 4; i++)
+		{
+			switch (directions[i])
+			{
+				case 0:
+					if (data[y + 1][x] == '#' || alreadyTraversed.Contains($"{y + 1},{x}"))
 					{
-						count.Dump();
-						Console.ReadLine();
+						break;
 					}
-					already = new List<string>();
-				}
-				Move(instCount, y + 1, x, already, addedKey, addedDoor);
-				break;
-			case 1:
-				if (data[y][x + 1] == '#' || alreadyTraversed.Contains($"{y},{x + 1}"))
-				{
-					break;
-				}
-				if (Char.IsUpper(data[y][x + 1]) && !addedKey.Contains(Char.ToLower(data[y][x + 1])))
-				{
-					break;
-				}
-				if (Char.IsLower(data[y][x + 1]))
-				{
-					addedKey.Add(data[y][x + 1]);
-					if (kdCount == addedKey.Count + addedDoor.Count)
+					if (Char.IsUpper(data[y + 1][x]) && !addedKey.Contains(Char.ToLower(data[y + 1][x])))
 					{
-						count.Dump();
-						Console.ReadLine();
+						break;
 					}
-					already = new List<string>();
-				}
-				Move(instCount, y, x + 1, already, addedKey, addedDoor);
-				break;
-			case 2:
-				if (data[y - 1][x] == '#' || alreadyTraversed.Contains($"{y - 1},{x}"))
-				{
-					break;
-				}
-				if (Char.IsUpper(data[y - 1][x]) && !addedKey.Contains(Char.ToLower(data[y - 1][x])))
-				{
-					break;
-				}
-				if (Char.IsLower(data[y - 1][x]))
-				{
-					addedKey.Add(data[y - 1][x]);
-					if (kdCount == addedKey.Count + addedDoor.Count)
+					else if (Char.IsUpper(data[y + 1][x]) && !addedDoor.Contains(data[y + 1][x]))
 					{
-						count.Dump();
-						Console.ReadLine();
+						addedDoor.Add(data[y + 1][x]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
 					}
-					already = new List<string>();
-				}
-				Move(instCount, y - 1, x, already, addedKey, addedDoor);
-				break;
-			case 3:
-				if (data[y][x - 1] == '#' || alreadyTraversed.Contains($"{y},{x - 1}"))
-				{
-					break;
-				}
-				if (Char.IsUpper(data[y][x - 1]) && !addedKey.Contains(Char.ToLower(data[y][x - 1])))
-				{
-					break;
-				}
-				if (Char.IsLower(data[y][x -1]))
-				{
-					addedKey.Add(data[y][x - 1]);
-					if (kdCount == addedKey.Count + addedDoor.Count)
+					if (Char.IsLower(data[y + 1][x]) && !addedKey.Contains(data[y + 1][x]))
 					{
-						count.Dump();
-						Console.ReadLine();
+						addedKey.Add(data[y + 1][x]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+						already = new List<string>();
 					}
-					already = new List<string>();
-				}
-				Move(instCount, y, x -1, already, addedKey, addedDoor);
-				break;
+					Move(instCount, y + 1, x, already, addedKey, addedDoor);
+					break;
+				case 1:
+					if (data[y][x + 1] == '#' || alreadyTraversed.Contains($"{y},{x + 1}"))
+					{
+						break;
+					}
+					if (Char.IsUpper(data[y][x + 1]) && !addedKey.Contains(Char.ToLower(data[y][x + 1])))
+					{
+						break;
+					}
+					else if (Char.IsUpper(data[y][x + 1]) && !addedDoor.Contains(data[y][x + 1]))
+					{
+						addedDoor.Add(data[y][x + 1]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+					}
+					if (Char.IsLower(data[y][x + 1]) && !addedKey.Contains(data[y][x + 1]))
+					{
+						addedKey.Add(data[y][x + 1]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+						already = new List<string>();
+					}
+					Move(instCount, y, x + 1, already, addedKey, addedDoor);
+					break;
+				case 2:
+					if (data[y - 1][x] == '#' || alreadyTraversed.Contains($"{y - 1},{x}"))
+					{
+						break;
+					}
+					if (Char.IsUpper(data[y - 1][x]) && !addedKey.Contains(Char.ToLower(data[y - 1][x])))
+					{
+						break;
+					}
+					else if (Char.IsUpper(data[y - 1][x]) && !addedDoor.Contains(data[y - 1][x]))
+					{
+						addedDoor.Add(data[y - 1][x]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+					}
+					if (Char.IsLower(data[y - 1][x]) && !addedKey.Contains(data[y - 1][x]))
+					{
+						addedKey.Add(data[y - 1][x]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+						already = new List<string>();
+					}
+					Move(instCount, y - 1, x, already, addedKey, addedDoor);
+					break;
+				case 3:
+					if (data[y][x - 1] == '#' || alreadyTraversed.Contains($"{y},{x - 1}"))
+					{
+						break;
+					}
+					if (Char.IsUpper(data[y][x - 1]) && !addedKey.Contains(Char.ToLower(data[y][x - 1])))
+					{
+						break;
+					}
+					else if (Char.IsUpper(data[y][x - 1]) && !addedDoor.Contains(data[y][x - 1]))
+					{
+						addedDoor.Add(data[y][x - 1]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+					}
+					if (Char.IsLower(data[y][x - 1]) && !addedKey.Contains(data[y][x - 1]))
+					{
+						addedKey.Add(data[y][x - 1]);
+						if (kdCount == addedKey.Count + addedDoor.Count)
+						{
+							paths.Add(count); paths.Min().Dump(); addedKey.Dump(); addedDoor.Dump();
+						}
+						already = new List<string>();
+					}
+					Move(instCount, y, x - 1, already, addedKey, addedDoor);
+					break;
+			}
 		}
 	}
 	return;
 }
 
 Move(0, xval, yval, new List<string>(){}, new List<char>(), new List<char>());
+(paths.Min() + 1).Dump("paths");
