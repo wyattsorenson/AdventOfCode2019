@@ -44,12 +44,19 @@ for (var m = 0; m < 100000000; m++) // 1000 times
 	//		}
 
 	var key = $"{data2[0, 0]},{ data2[0, 1]},{ data2[0, 2]}";
-	if (data3[0, 0] == data[0, 0] && data3[0, 1] == data[0, 1])
+	if (!dict.ContainsKey(key))
 	{
-		Console.WriteLine($"{data3[0, 0]} == {data[0, 0]}");
-		Console.WriteLine(m);
-		Console.ReadLine();
+		dict.Add(key, m);
 	}
+	else
+	{
+		m.Dump();
+		
+	}
+
+
+
+
 	//	data.Dump("data");
 	//	data2.Dump("data2");
 }
