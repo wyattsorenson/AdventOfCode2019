@@ -61,20 +61,19 @@ data.Add("7 TKRT", new List<string>(){"2 CNLFV"});
 data.Add("3 LWNKB", new List<string>(){"3 FZDP"});
 data.Add("4 RPLCK", new List<string>(){"1 HTZW"});
 
-foreach(KeyValuePair<string, List<string>> entry in data)
+foreach (var x in data.Select((Entry, Index) => new { Entry, Index })) //x.Index, x.Entry.Key, x.Entry.Value
 {
 	foreach(KeyValuePair<string, List<string>> entry2 in data)
 	{
-		foreach(var v in data.Value)
+		foreach(var v in entry2.Value)
 		{
-			if(v.SubString(2) == entry.Key.SubString(2))
+			if(v.Substring(2) == x.Entry.Key.Substring(2))
 			{
-				foreach(var l in data.Value)
-				{
-					data.Value.Add();
-				}
+				var list = new List<string>();
+				
+				
+				data.Add(entry2.Key, list);
 			}
 		}
 	}
 }
-

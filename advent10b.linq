@@ -84,8 +84,8 @@ void doIt2(){
 			{
 				double width = o - i;
 				double height = p - j;
-				Console.WriteLine(Math.Atan2(width,height) * 180 / Math.PI);
-				if(p != i && o != j)
+				Console.WriteLine(Math.Atan2(width,height) * 180 / Math.PI);x
+				if(p != j && o != i)
 				{
 					dubs.Add(Math.Atan2(width,height) * 180 / Math.PI);
 					if(dict.ContainsKey(Math.Atan2(width,height) * 180 / Math.PI))
@@ -130,4 +130,3 @@ void doIt2(){
 //
 //bresNumber = doIt();
 doIt2();
-

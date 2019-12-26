@@ -102,21 +102,20 @@ commands.Add("deal into new stack");
 commands.Add("cut -5");
 commands.Add("deal into new stack");
 
-var list = Enumerable.Range(0,10007);
+//commands.Add("deal into new stack");
+
+var size = 10007; 
+var list = Enumerable.Range(0,size);
 var stack = new LinkedList<int>(list);
 
-for(var i = 0; i < stack.Count; i++)
-{
-	stack.Add()
-}
-
+var n = 0;
 foreach(var command in commands)
 {
 	var c = command.Split(' ');
 	switch(c[0])
 	{
 		case "cut":
-			var n = int.Parse(c[c.Count() - 1]);
+			n = int.Parse(c[1]);
 			if(n > 0)
 			{
 				for(var i = 0; i < n; i++)
@@ -137,11 +136,25 @@ foreach(var command in commands)
 		case "deal":
 			if(c[1] == "into")
 			{
-				
+//				"d".Dump();
+				var stack44 = new LinkedList<int>();
+				foreach(var s in stack)
+				{
+					stack44.AddFirst(s);
+				}
+				stack = new LinkedList<int>(stack44);
 			}
 			else if( c[1] == "with")
 			{
-			
+				var a = new int[size];
+				n = int.Parse(c[c.Count() - 1]);
+				var list2 = new List<int>(stack);
+				
+				for(int t = 0; t < stack.Count(); t++)
+				{
+					a[(t * n) % size] = list2[t];
+				}
+				stack = new LinkedList<int>(list2);
 			}
 			break;
 		default:
@@ -149,4 +162,7 @@ foreach(var command in commands)
 	}
 }
 
-stack.Dump();
+stack.ToList()[2019].Dump();
+//stack.ToList().Dump();
+
+
