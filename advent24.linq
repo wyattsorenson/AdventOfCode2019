@@ -1,11 +1,12 @@
 <Query Kind="Statements" />
 
 
-
+var levelAmount = 6;
+var minutes = 2;
 var data = new List<string[]>();
-for (int i = 0; i < 200; i++)
+for (int i = 0; i < levelAmount; i++)
 {
-	if (i != 100)
+	if (i != levelAmount/2)
 	{
 		data.Add(new string[5] {
 			".....",
@@ -17,94 +18,100 @@ for (int i = 0; i < 200; i++)
 	}
 	else
 	{
+//		data.Add(new string[5] {
+//			"##.#.",
+//			".##..",
+//			"##?#.",
+//			".####",
+//			"###.."
+//			});
+
 		data.Add(new string[5] {
-			"##.#.",
-			".##..",
-			"##.#.",
-			".####",
-			"###.."
+			".#...",
+			".#.##",
+			".#?..",
+			".....",
+			"....."
 			});
 	}
 }
 var data2 = new List<string[]>();
-for (int i = 0; i < 200; i++)
+for (int i = 0; i < levelAmount; i++)
 {
-	if (i != 100)
-	{
-		data2.Add(new string[5] {
-			".....",
-			".....",
-			".....",
-			".....",
-			"....."
-			});
-	}
-	else
-	{
-		data2.Add(new string[5] {
-			"##.#.",
-			".##..",
-			"##.#.",
-			".####",
-			"###.."
-			});
-	}
+	data2.Add(new string[5] {
+		"",
+		"",
+		"",
+		"",
+		""
+		});
 }
 
 var list = new List<string>();
 
-var level = 0;
-for (int q = 0; q < 200; q++)
+
+for (int q = 0; q < minutes; q++) // minutes
 {
 	q.Dump();
-	for (int m = 0; m < 200; m++)
-	{
-		var newString = new string[5];
-	
-		for (var y = 0; y < 5; y++)
+	for (int m = 0; m < levelAmount; m++) // level
+	{	
+		for (var y = 0; y < 5; y++) // row
 		{
-			for (var x = 0; x < 5; x++)
+			for (var x = 0; x < 5; x++) // column
 			{
 				var u = 0;
 				var r = 0;
 				var d = 0;
 				var l = 0;
-				try { u = up(y, x, l); } catch { try { u = upL(level); } catch { } }
-				try { r = right(y, x, l); } catch { try { r = rightL(level); } catch { } }
-				try { d = down(y, x, l); } catch { try { d = downL(level); } catch { } }
-				try { l = left(y, x, l); } catch { try { l = leftL(level); } catch { } }
+				try { u = up(y, x, m); } catch { try { u = upL(m); } catch { } }
+				try { r = right(y, x, m); } catch { try { r = rightL(m); } catch { } }
+				try { d = down(y, x, m); } catch { try { d = downL(m); } catch { } }
+				try { l = left(y, x, m); } catch { try { l = leftL(m); } catch { } }
 	
 	
 				var total = u + r + d + l;
 	
-				if (data[level][y][x] == '#' && total != 1)
+				if (data[m][y][x] == '#' && total != 1)
 				{
-					newString[y] += '.';
+					data2[m][y] += '.';
 				}
-				else if (data[level][y][x] == '.' && (total == 1 || total == 2))
+				else if (data[m][y][x] == '.' && (total == 1 || total == 2))
 				{
-					newString[y] += '#';
+					data2[m][y] += '#';
 				}
 				else
 				{
-					newString[y] += data[y][x];
+					data2[m][y] += data[m][y][x];
 				}
 			}
 		}
-	
-		data2[level] = newString;
 	}
 	data = new List<string[]>(data2);
+	for (int m = 0; m < levelAmount; m++)
+	{
+		data[m].Dump($"level: {m}");
+	}
+	data2 = new List<string[]>();
+	for (int i = 0; i < levelAmount; i++)
+	{
+		data2.Add(new string[5] {
+		"",
+		"",
+		"",
+		"",
+		""
+		});
+	}
 }
 var count = 0;
-for (int m = 0; m < 200; m++)
+for (int m = 0; m < levelAmount; m++)
 {
-	data[m].Dump();
+	data[m].Dump($"level: {m}");
 	for (var y = 0; y < 5; y++)
 	{
 		for (var x = 0; x < 5; x++)
 		{
-			if ((y != 2 && x != 2) && data[m][y][x] == '#')
+			if ((y != 2 || x != 2) && data[m][y][x] == '#')
 			{
 				count++;
 			}
@@ -112,8 +119,6 @@ for (int m = 0; m < 200; m++)
 	}
 }
 count.Dump();
-
-//	current.Dump();
 
 int up(int y, int x, int l)
 {
@@ -141,6 +146,7 @@ int up(int y, int x, int l)
 		}
 	}
 }
+
 int upL(int l)
 {
 	var r = 0;
@@ -153,12 +159,13 @@ int upL(int l)
 	}
 	return r;
 }
+
 int right(int y, int x, int l)
 {
 	if (y == 2 && x == 1)
 	{
 		var r = 0;
-		foreach (var s in data[level + 1])
+		foreach (var s in data[l + 1])
 		{
 			if (s[0] == '#')
 			{
@@ -179,10 +186,11 @@ int right(int y, int x, int l)
 		}
 	}
 }
+
 int rightL(int l)
 {
 	var r = 0;
-	foreach (var s in data[level - 1])
+	foreach (var s in data[l - 1])
 	{
 		if (s[0] == '#')
 		{
@@ -191,6 +199,7 @@ int rightL(int l)
 	}
 	return r;
 }
+
 int down(int y, int x, int l)
 {
 	if (y == 1 && x == 2)
@@ -217,6 +226,7 @@ int down(int y, int x, int l)
 		}
 	}
 }
+
 int downL(int l)
 {
 	var r = 0;
@@ -229,12 +239,13 @@ int downL(int l)
 	}
 	return r;
 }
+
 int left(int y, int x, int l)
 {
 	if (y == 2 && x == 3)
 	{
 		var r = 0;
-		foreach (var s in data[level + 1])
+		foreach (var s in data[l + 1])
 		{
 			if (s[4] == '#')
 			{
@@ -255,10 +266,11 @@ int left(int y, int x, int l)
 		}
 	}
 }
+
 int leftL(int l)
 {
 	var r = 0;
-	foreach (var s in data[level - 1])
+	foreach (var s in data[l - 1])
 	{
 		if (s[4] == '#')
 		{
