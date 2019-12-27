@@ -102,23 +102,52 @@ commands.Add("deal into new stack");
 commands.Add("cut -5");
 commands.Add("deal into new stack");
 
+//commands.Add("cut 6");
+//commands.Add("deal with increment 7");
 //commands.Add("deal into new stack");
+//
+//commands.Add("deal with increment 7");
+//commands.Add("deal with increment 9");
+//commands.Add("cut -2");
 
-var size = 10007; 
-var list = Enumerable.Range(0,size);
-var stack = new LinkedList<int>(list);
+//commands.Add("deal into new stack");
+//commands.Add("cut -2");
+//commands.Add("deal with increment 7");
+//commands.Add("cut 8");
+//commands.Add("cut -4");
+//commands.Add("deal with increment 7");
+//commands.Add("cut 3");
+//commands.Add("deal with increment 9");
+//commands.Add("deal with increment 3");
+//commands.Add("cut -1");
 
-var n = 0;
-foreach(var command in commands)
+IEnumerable<long> RangeL(long start, long count)
+{
+	var end = start + count;
+	for (var current = start; current < end; ++current)
+	{
+		yield return current;
+	}
+}
+
+var size = 119315717514047;
+var list = RangeL(0, size);
+var stack = new LinkedList<long>(list);
+
+
+
+
+var n = (long)0;
+foreach (var command in commands)
 {
 	var c = command.Split(' ');
-	switch(c[0])
+	switch (c[0])
 	{
 		case "cut":
 			n = int.Parse(c[1]);
-			if(n > 0)
+			if (n > 0)
 			{
-				for(var i = 0; i < n; i++)
+				for (var i = 0; i < n; i++)
 				{
 					stack.AddLast(stack.First.Value);
 					stack.RemoveFirst();
@@ -126,7 +155,7 @@ foreach(var command in commands)
 			}
 			else
 			{
-				for(var i = 0; i < Math.Abs(n); i++)
+				for (var i = 0; i < Math.Abs(n); i++)
 				{
 					stack.AddFirst(stack.Last.Value);
 					stack.RemoveLast();
@@ -134,35 +163,31 @@ foreach(var command in commands)
 			}
 			break;
 		case "deal":
-			if(c[1] == "into")
+			if (c[1] == "into")
 			{
-//				"d".Dump();
-				var stack44 = new LinkedList<int>();
-				foreach(var s in stack)
+				var stack44 = new LinkedList<long>();
+				foreach (var s in stack)
 				{
 					stack44.AddFirst(s);
 				}
-				stack = new LinkedList<int>(stack44);
+				stack = new LinkedList<long>(stack44);
 			}
-			else if( c[1] == "with")
+			else if (c[1] == "with")
 			{
-				var a = new int[size];
-				n = int.Parse(c[c.Count() - 1]);
-				var list2 = new List<int>(stack);
-				
-				for(int t = 0; t < stack.Count(); t++)
+				var a = new long[size];
+				n = long.Parse(c[c.Count() - 1]);
+				var list2 = new List<long>(stack);
+
+				for (long t = 0; t < stack.Count(); t++)
 				{
 					a[(t * n) % size] = list2[t];
 				}
-				stack = new LinkedList<int>(list2);
+				stack = new LinkedList<long>(a);
 			}
 			break;
 		default:
 			break;
 	}
 }
-
-stack.ToList()[2019].Dump();
-//stack.ToList().Dump();
-
-
+if (stack.Count > 2019) { stack.ToList().IndexOf(2019).Dump();}
+stack.ToList().Dump();
