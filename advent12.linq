@@ -1,12 +1,16 @@
 <Query Kind="Statements" />
 
-var data3 = new int[4, 3] { { -9, 10, -1 }, { -14, -8, 14 }, { 1, 5, 6 }, { -19, 7, 8 } };
+//var data3 = new int[4, 3] { { -9, 10, -1 }, { -14, -8, 14 }, { 1, 5, 6 }, { -19, 7, 8 } };
 var data = new int[4, 3] { { -9, 10, -1 }, { -14, -8, 14 }, { 1, 5, 6 }, { -19, 7, 8 } };
 //var data = new int[4, 3] { { -1, 0, 2 }, { 2, -10, -7 }, { 4, -8, 8 }, { 3, 5, -1 } };
 var data2 = new int[4, 3] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+
 var dict = new Dictionary<string, int>();
 
-for (var m = 0; m < 100000000; m++) // 1000 times
+using (System.IO.StreamWriter file = 
+    new System.IO.StreamWriter(@"C:\Users\Public\WriteLines2.txt"))
+{
+for (var m = 0; m < 1000000; m++) // 1000 times
 {
 	for (var i = 0; i < data.GetLength(0); i++) // each moon
 	{
@@ -27,8 +31,20 @@ for (var m = 0; m < 100000000; m++) // 1000 times
 				}
 			}
 		}
-
 	}
+	
+	
+	
+//	data[0, 0].Dump();
+	
+
+     file.WriteLine(data[0, 2]);
+
+	
+	
+	
+	
+	
 	for (var n = 0; n < data.GetLength(0); n++) // each moon
 	{
 		for (var p = 0; p < 3; p++) // each position
@@ -50,36 +66,32 @@ for (var m = 0; m < 100000000; m++) // 1000 times
 	}
 	else
 	{
-		m.Dump();
-		
+//		m.Dump();
 	}
-
-
-
-
 	//	data.Dump("data");
 	//	data2.Dump("data2");
 }
+    }
+//data.Dump();
+//data2.Dump();
 
-var energy = 0;
-
-for (var n = 0; n < data.GetLength(0); n++) // each moon
-{
-	var kin = 0;
-	var pos = 0;
-	for (var p = 0; p < 3; p++) // each position
-	{
-		pos += Math.Abs(data[n, p]);
-		kin += Math.Abs(data2[n, p]);
-	}
-	//	pos.Dump();
-	//	kin.Dump();
-	energy += pos * kin;
-}
-energy.Dump();
-data.Dump();
-data2.Dump();
-
-// 158864
-// 362079
+//var energy = 0;
 //
+//for (var n = 0; n < data.GetLength(0); n++) // each moon
+//{
+//	var kin = 0;
+//	var pos = 0;
+//	for (var p = 0; p < 3; p++) // each position
+//	{
+//		pos += Math.Abs(data[n, p]);
+//		kin += Math.Abs(data2[n, p]);
+//	}
+//	//	pos.Dump();
+//	//	kin.Dump();
+//	energy += pos * kin;
+//}
+
+
+//energy.Dump();
+//data.Dump();
+//data2.Dump();
